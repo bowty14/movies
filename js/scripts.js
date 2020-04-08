@@ -1,19 +1,18 @@
 function TicketToBuy (){  
-  this.ticketPrices = [];
+  this.tickets = [];
   this.currentId = 0;
   console.log(TicketToBuy);
 }
 
 TicketToBuy.prototype.addTicket = function(ticket) {
   ticket.id = this.assignId();
-  this.ticketPrices.push(ticket);
+  this.tickets.push(ticket);
 }
 
-function TicketPrice(age, movieTitle, showTime, price) {
-  this.age = age,
-  this.movieTitle = movieTitle
-  this.showTime = showTime
-  
+function Ticket(age, movieTitle, showTime) {
+  this.movieTitle = movieTitle;
+  this.showTime = showTime;
+  this.age = age;
 }
 
 TicketToBuy.prototype.assignId = function () {
@@ -22,59 +21,55 @@ TicketToBuy.prototype.assignId = function () {
 }
 
 TicketToBuy.prototype.findTicket = function (id) {
-  for (var i = 0; i < this.ticketPrices.length; i++) {
-    if (this.ticketPrices[i]) {
-      if (this.ticketPrices[i].id == id) {
-        return this.ticketPrices[i];
+  for (var i = 0; i < this.tickets.length; i++) {
+    if (this.tickets[i]) {
+      if (this.tickets[i].id == id) {
+        return this.tickets[i];
       }
     }
   };
   return false;
 }
 
-TicketPrice.prototype.price = function() {
-  var price = 12;
+Ticket.prototype.price = function() {
+  var price = 14;
   if (this.age === "child") {
-    price *= .05;
+    price *= .6;
   } else if (this.age === "senior") {
-    price *= .07;
+    price *= .8;
   } else {
-    price *= 1.4;
+    price *= 1.2;
   }
-  return this.price;
+  return price;
 }
 
- var ticketsToBuy = new TicketToBuy();
-
-
-function showTicket(ticketsToBuy) {
-  var ticket = ticketsToBuy.findTicket(ticketsToBuy.currentId);
-  $(".movie").text(ticket.movieTitle);
-  $(".time").text(ticket.showTime);
-  $(".ticket-price").text(ticket.price);
+function showTickets(toBuy) {
+  content = '';  
+  for (var i = 0; i < toBuy.tickets.length; i++) {
+    content += showTicket(toBuy.tickets[i]);
+  }
+  $("#tickets").text(content);
   $("#output").show();
 }
 
-
+function showTicket(ticket) {
+  var ticketInfo = ("One " + ticket.age + " ticket for " + ticket.movieTitle + " at " + ticket.showTime + " price " + ticket.price());
+  return ticketInfo;
+}
 
 
 $(document).ready(function(){
-  
+  var ticketsToBuy = new TicketToBuy();
+
   $("#form-container").submit(function(event){
     event.preventDefault();
     var inputtedAge = $("#age").val();
     var inputtedMovie = $("#movie-title").val();
     var inputtedShowTime = $("#show-time").val();
     
-    
-    var newTicket = new TicketPrice (inputtedAge, inputtedMovie, inputtedShowTime);
+    var newTicket = new Ticket(inputtedAge, inputtedMovie, inputtedShowTime);
     ticketsToBuy.addTicket(newTicket);
-    // displayTicketDetails(ticketsToBuy);
-    // ticketsToBuy.price(inputtedAge);
-    // console.log(ticketsToBuy.price(inputtedAge))
-    // displayTicketDetails(Ticket);
     console.log(ticketsToBuy);
-    showTicket(ticketsToBuy);
-    // ticketsToBuy.price(newTicket)
+    showTickets(ticketsToBuy);    
   });
 })
