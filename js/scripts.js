@@ -1,4 +1,4 @@
-function TicketToBuy (){ 
+function TicketToBuy (){  
   this.ticketPrices = [];
   this.currentId = 0;
   console.log(TicketToBuy);
@@ -42,7 +42,6 @@ TicketPrice.prototype.price = function() {
     price *= 1.4;
   }
   return this.price;
-  console.log(TicketPrice);
 }
 
  var ticketsToBuy = new TicketToBuy();
@@ -50,18 +49,17 @@ TicketPrice.prototype.price = function() {
 
 function showTicket(ticketsToBuy) {
   var ticket = ticketsToBuy.findTicket(ticketsToBuy.currentId);
-  console.log("TicketsToBuy: ", ticketsToBuy)
-  console.log("ticket: ", ticket)
+  $(".movie").text(ticket.movieTitle);
+  $(".time").text(ticket.showTime);
+  $(".ticket-price").text(ticket.price);
   $("#output").show();
-  $(".movie").append(ticket.movieTitle);
-  $(".ticket-price").append(ticket.price);
 }
 
 
 
 
 $(document).ready(function(){
-  $("#output").show();
+  
   $("#form-container").submit(function(event){
     event.preventDefault();
     var inputtedAge = $("#age").val();
